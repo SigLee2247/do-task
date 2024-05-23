@@ -20,18 +20,28 @@ public class CpuSaveScheduler {
   private final CpuService service;
   private final CpuCache cache;
 
+  /*
+   * A value of 0.0 means that all CPUs were idle during the recent period of time observed, -> 0.0의 값은 최근 기간 동안 모든 CPU가 유휴 상태
+   * */
   @Scheduled(cron = "0 * * * * *")
   public void saveCpuUsagePerMinute() {
-    OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+    try {
+      OperatingSystemMXBean osBean =
+          ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+      double cpuLoad = osBean.getCpuLoad() * 100;
 
-    // return 0 since we have no data, not -1 which indicates error
-    double cpuLoad = osBean.getCpuLoad() * 100;
+      // save Data in RDB
+      CpuMinuteUsage entity = service.saveMinuteUsage((int) cpuLoad);
 
-    // save Data in RDB
-    CpuMinuteUsage entity = service.saveMinuteUsage((int) cpuLoad);
-
-    // save Data in Cache
-    cache.save(entity);
+      // save Data in Cache
+      cache.save(entity);
+    } catch (IllegalArgumentException e) {
+      log.error(e.getMessage());
+      saveCpuUsagePerMinute();
+    } catch (UnsupportedOperationException e) {
+      log.error(e.getMessage());
+      log.error("사용하는 JDK 에서는 CPU 정보 조회를 제공하지 않습니다.");
+    }
   }
 
   @Scheduled(cron = "30 59 23 * * *")
