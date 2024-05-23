@@ -33,20 +33,26 @@ class CpuServiceImplTest {
   @DisplayName("단위 분 당 CPU 사용량 저장 save() 테스트")
   void saveMinuteUsageTest() throws Exception {
     // given
-    ArgumentCaptor<CpuMinuteUsage> returnRepositoryCaptor = ArgumentCaptor.forClass(CpuMinuteUsage.class);
-    ArgumentCaptor<CpuMinuteUsage> sendRepositoryCaptor = ArgumentCaptor.forClass(CpuMinuteUsage.class);
+    ArgumentCaptor<CpuMinuteUsage> returnRepositoryCaptor =
+        ArgumentCaptor.forClass(CpuMinuteUsage.class);
+    ArgumentCaptor<CpuMinuteUsage> sendRepositoryCaptor =
+        ArgumentCaptor.forClass(CpuMinuteUsage.class);
     int cpuLoad = 10;
     CpuMinuteUsage savedEntity = new CpuMinuteUsage(cpuLoad);
 
-    BDDMockito.given(minuteUsageRepository.save(sendRepositoryCaptor.capture())).willReturn(savedEntity);
+    BDDMockito.given(minuteUsageRepository.save(sendRepositoryCaptor.capture()))
+        .willReturn(savedEntity);
     // when
     service.saveMinuteUsage(cpuLoad);
     // then
     Mockito.verify(minuteUsageRepository, Mockito.times(1)).save(returnRepositoryCaptor.capture());
 
-    Assertions.assertThat(returnRepositoryCaptor.getValue().getUsage()).isEqualTo(savedEntity.getUsage());
-    Assertions.assertThat(returnRepositoryCaptor.getValue().getUsage()).isEqualTo(sendRepositoryCaptor.getValue().getUsage());
-    Assertions.assertThat(sendRepositoryCaptor.getValue().getUsage()).isEqualTo(savedEntity.getUsage());
+    Assertions.assertThat(returnRepositoryCaptor.getValue().getUsage())
+        .isEqualTo(savedEntity.getUsage());
+    Assertions.assertThat(returnRepositoryCaptor.getValue().getUsage())
+        .isEqualTo(sendRepositoryCaptor.getValue().getUsage());
+    Assertions.assertThat(sendRepositoryCaptor.getValue().getUsage())
+        .isEqualTo(savedEntity.getUsage());
   }
 
   @Test
@@ -64,7 +70,8 @@ class CpuServiceImplTest {
     ArgumentCaptor<List<CpuHourlyUsage>> sendRepositoryCaptor = ArgumentCaptor.forClass(List.class);
     // given
 
-    BDDMockito.given(hourlyUsageRepository.saveAll(sendRepositoryCaptor.capture())).willReturn(mockSave);
+    BDDMockito.given(hourlyUsageRepository.saveAll(sendRepositoryCaptor.capture()))
+        .willReturn(mockSave);
     // when
     service.saveHourlyUsage(parameter);
     // then
@@ -74,29 +81,31 @@ class CpuServiceImplTest {
 
     Assertions.assertThat(result).hasSameSizeAs(mockSave);
     Assertions.assertThat(result.get(0)).usingRecursiveComparison().isEqualTo(mockSave.get(0));
-
   }
 
   @Test
   @DisplayName("단위 시간 당 CPU 사용량 저장 saveHourly() 테스트")
   void saveDailyUsageTest() throws Exception {
     // given
-    ArgumentCaptor<CpuDailyUsage> sendRepositoryCaptor = ArgumentCaptor.forClass(CpuDailyUsage.class);
-    ArgumentCaptor<CpuDailyUsage> returnRepositoryCaptor = ArgumentCaptor.forClass(CpuDailyUsage.class);
-    List<CpuHourlyUsage> parameter = List.of(
-        new CpuHourlyUsage(40, 10, 25.0, 100, 4, DateUtils.getCustomHour(1)),
-        new CpuHourlyUsage(50, 10, 25.0, 200, 10, DateUtils.getCustomHour(2)),
-        new CpuHourlyUsage(60, 5, 25.0, 300, 20, DateUtils.getCustomHour(3))
-    );
+    ArgumentCaptor<CpuDailyUsage> sendRepositoryCaptor =
+        ArgumentCaptor.forClass(CpuDailyUsage.class);
+    ArgumentCaptor<CpuDailyUsage> returnRepositoryCaptor =
+        ArgumentCaptor.forClass(CpuDailyUsage.class);
+    List<CpuHourlyUsage> parameter =
+        List.of(
+            new CpuHourlyUsage(40, 10, 25.0, 100, 4, DateUtils.getCustomHour(1)),
+            new CpuHourlyUsage(50, 10, 25.0, 200, 10, DateUtils.getCustomHour(2)),
+            new CpuHourlyUsage(60, 5, 25.0, 300, 20, DateUtils.getCustomHour(3)));
 
     int expectedMax = parameter.stream().mapToInt(CpuHourlyUsage::getMaxUsage).max().getAsInt();
     int expectedMin = parameter.stream().mapToInt(CpuHourlyUsage::getMinUsage).min().getAsInt();
     int expectedCount = parameter.stream().mapToInt(CpuHourlyUsage::getSamplingCount).sum();
     int expectedTotal = parameter.stream().mapToInt(CpuHourlyUsage::getTotalUsage).sum();
-    double avg = ((double)expectedTotal/expectedCount);
+    double avg = ((double) expectedTotal / expectedCount);
 
     CpuDailyUsage saveMock = new CpuDailyUsage(expectedMax, expectedMin, avg, LocalDate.now());
-    BDDMockito.given(dailyUsageRepository.save(sendRepositoryCaptor.capture())).willReturn(saveMock);
+    BDDMockito.given(dailyUsageRepository.save(sendRepositoryCaptor.capture()))
+        .willReturn(saveMock);
     // when
     service.saveDailyUsage(parameter);
     // then
