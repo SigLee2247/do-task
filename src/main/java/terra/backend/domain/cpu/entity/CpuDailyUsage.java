@@ -33,7 +33,7 @@ public class CpuDailyUsage {
   public CpuDailyUsage(int maxUsage, int minUsage, double avgUsage, LocalDate samplingDate) {
     this.maxUsage = maxUsage;
     this.minUsage = minUsage;
-    this.avgUsage = String.valueOf(avgUsage);
+    this.avgUsage = String.valueOf(Math.round(avgUsage));
     this.samplingDate = samplingDate;
   }
 }

@@ -6,12 +6,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.LocalDateTime;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CpuMinuteUsage {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,5 +27,12 @@ public class CpuMinuteUsage {
 
   public CpuMinuteUsage(int cpuLoad) {
     this.usage = cpuLoad;
+    this.samplingDate = LocalDateTime.now();
+  }
+
+  public CpuMinuteUsage(Long id, int usage) {
+    this.id = id;
+    this.usage = usage;
+    this.samplingDate = LocalDateTime.now();
   }
 }

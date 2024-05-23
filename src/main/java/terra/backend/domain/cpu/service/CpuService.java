@@ -7,7 +7,7 @@ import terra.backend.domain.cpu.entity.CpuHourlyUsage;
 import terra.backend.domain.cpu.entity.CpuMinuteUsage;
 
 public interface CpuService {
-  CpuMinuteUsage save(int cpuLoad);
+  CpuMinuteUsage saveMinuteUsage(int cpuLoad);
 
   List<CpuHourlyUsage> saveHourlyUsage(List<CpuUsage> list);
 

@@ -29,7 +29,7 @@ public class CpuServiceImpl implements CpuService {
 
   @Override
   @Transactional
-  public CpuMinuteUsage save(int cpuLoad) {
+  public CpuMinuteUsage saveMinuteUsage(int cpuLoad) {
     return minuteUsageRepository.save(new CpuMinuteUsage(cpuLoad));
   }
 
