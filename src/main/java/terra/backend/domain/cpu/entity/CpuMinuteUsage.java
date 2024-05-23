@@ -23,4 +23,8 @@ public class CpuMinuteUsage {
 
   @Column(nullable = false)
   private LocalDateTime samplingDate;
+
+  public CpuMinuteUsage(int cpuLoad) {
+    this.usage = cpuLoad;
+  }
 }
