@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,8 +25,15 @@ public class CpuDailyUsage {
   private int minUsage;
 
   @Column(nullable = false)
-  private int avgUsage;
+  private String avgUsage;
 
   @Column(nullable = false)
-  private LocalDateTime samplingDate;
+  private LocalDate samplingDate;
+
+  public CpuDailyUsage(int maxUsage, int minUsage, double avgUsage, LocalDate samplingDate) {
+    this.maxUsage = maxUsage;
+    this.minUsage = minUsage;
+    this.avgUsage = String.valueOf(Math.round(avgUsage));
+    this.samplingDate = samplingDate;
+  }
 }
