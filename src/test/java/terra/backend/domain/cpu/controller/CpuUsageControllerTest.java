@@ -57,9 +57,7 @@ class CpuUsageControllerTest {
     JsonPath result = response.jsonPath();
     assertAll(
         () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-        () ->
-            assertThat(result.getList("data.cpuUsageList", CpuMinuteUsageDto.class))
-                .isNotEmpty(),
+        () -> assertThat(result.getList("data.cpuUsageList", CpuMinuteUsageDto.class)).isNotEmpty(),
         () -> {
           List<CpuMinuteUsageDto> cpuUsageList =
               result.getList(

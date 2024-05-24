@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import terra.backend.common.dto.response.ResponseDto;
 import terra.backend.domain.cpu.service.CpuService;
 import terra.backend.domain.cpu.validation.annotation.DateValidation;
-import terra.backend.domain.dto.response.CpuDailyUsageResponse;
-import terra.backend.domain.dto.response.CpuHourUsageResponse;
-import terra.backend.domain.dto.response.CpuMinuteUsageResponse;
+import terra.backend.domain.dto.response.CpuResponseDto;
 
 @Validated
 @RestController
@@ -30,7 +28,7 @@ public class CpuUsageController {
   public ResponseEntity findUsageByMin(
       @RequestParam("startDate") @DateValidation LocalDateTime startDate,
       @RequestParam("endDate") @DateValidation LocalDateTime endDate) {
-    CpuMinuteUsageResponse result = cpuService.findUsageByMin(startDate, endDate);
+    CpuResponseDto result = cpuService.findUsage(startDate, endDate, MIN);
     return ResponseEntity.ok(new ResponseDto(result));
   }
 
@@ -38,7 +36,7 @@ public class CpuUsageController {
   public ResponseEntity findUsageByHour(
       @RequestParam("startDate") @DateValidation(type = HOUR) LocalDateTime startDate,
       @RequestParam("endDate") @DateValidation(type = HOUR) LocalDateTime endDate) {
-    CpuHourUsageResponse result = cpuService.findUsageByHour(startDate, endDate);
+    CpuResponseDto result = cpuService.findUsage(startDate, endDate, HOUR);
     return ResponseEntity.ok(new ResponseDto(result));
   }
 
@@ -46,7 +44,7 @@ public class CpuUsageController {
   public ResponseEntity findUsageByDay(
       @RequestParam("startDate") @DateValidation(type = HOUR) LocalDate startDate,
       @RequestParam("endDate") @DateValidation(type = HOUR) LocalDate endDate) {
-    CpuDailyUsageResponse result = cpuService.findUsageByDay(startDate, endDate);
+    CpuResponseDto result = cpuService.findUsage(startDate, endDate, DAY);
     return ResponseEntity.ok(new ResponseDto(result));
   }
 }

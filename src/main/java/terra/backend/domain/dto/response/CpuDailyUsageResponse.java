@@ -9,7 +9,7 @@ import terra.backend.domain.cpu.entity.CpuDailyUsage;
 
 @Getter
 @AllArgsConstructor
-public class CpuDailyUsageResponse {
+public class CpuDailyUsageResponse implements CpuResponseDto {
   private List<CpuDailyUsageDto> cpuUsageList;
 
   @Getter
