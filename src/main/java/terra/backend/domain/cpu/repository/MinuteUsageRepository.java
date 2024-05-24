@@ -11,4 +11,8 @@ public interface MinuteUsageRepository extends JpaRepository<CpuMinuteUsage, Lon
 
   @Query("SELECT c FROM CpuMinuteUsage c WHERE c.samplingDate > :startDate ")
   List<CpuMinuteUsage> findTodayUsage(@Param("startDate") LocalDateTime startDate);
+
+  @Query("select m from CpuMinuteUsage m where m.samplingDate between :startDate and :endDate")
+  List<CpuMinuteUsage> findBetweenDate(
+      @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 }
