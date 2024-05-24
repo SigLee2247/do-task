@@ -1,16 +1,19 @@
 package terra.backend.domain.cpu.service;
 
 import static terra.backend.common.utils.DateUtils.getCustomHour;
+import static terra.backend.domain.dto.response.CpuHourUsageResponse.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import terra.backend.common.utils.DateUtils;
 import terra.backend.common.utils.IntSummaryStatisticsUtils;
 import terra.backend.domain.cpu.cache.dto.CpuUsage;
 import terra.backend.domain.cpu.entity.CpuDailyUsage;
@@ -19,6 +22,9 @@ import terra.backend.domain.cpu.entity.CpuMinuteUsage;
 import terra.backend.domain.cpu.repository.DailyUsageRepository;
 import terra.backend.domain.cpu.repository.HourlyUsageRepository;
 import terra.backend.domain.cpu.repository.MinuteUsageRepository;
+import terra.backend.domain.dto.response.CpuDailyUsageResponse;
+import terra.backend.domain.dto.response.CpuDailyUsageResponse.CpuDailyUsageDto;
+import terra.backend.domain.dto.response.CpuHourUsageResponse;
 import terra.backend.domain.dto.response.CpuMinuteUsageResponse;
 import terra.backend.domain.dto.response.CpuMinuteUsageResponse.CpuMinuteUsageDto;
 
@@ -54,13 +60,27 @@ public class CpuServiceImpl implements CpuService {
 
   @Override
   public CpuMinuteUsageResponse findUsageByMin(LocalDateTime startDate, LocalDateTime endDate) {
-    List<CpuMinuteUsage> findEntityList = dailyUsageRepository.findBetweenDate(startDate, endDate);
-    return transToDto(findEntityList);
+    List<CpuMinuteUsage> findEntityList = minuteUsageRepository.findBetweenDate(startDate, endDate);
+    return new CpuMinuteUsageResponse(transToDto(findEntityList, CpuMinuteUsageDto::of));
   }
 
-  private CpuMinuteUsageResponse transToDto(List<CpuMinuteUsage> findEntityList) {
-    List<CpuMinuteUsageDto> result = findEntityList.stream().map(CpuMinuteUsageDto::of).toList();
-    return new CpuMinuteUsageResponse(result);
+  @Override
+  public CpuHourUsageResponse findUsageByHour(LocalDateTime startDate, LocalDateTime endDate) {
+    startDate = DateUtils.getLocalDateTimeMinuteZero(startDate);
+    endDate = DateUtils.getLocalDateTimeMinuteZero(endDate);
+
+    List<CpuHourlyUsage> findEntityList = hourlyUsageRepository.findBetweenDate(startDate, endDate);
+    return new CpuHourUsageResponse(transToDto(findEntityList, CpuHourUsageDto::of));
+  }
+
+  @Override
+  public CpuDailyUsageResponse findUsageByDay(LocalDate startDate, LocalDate endDate) {
+    List<CpuDailyUsage> findEntityList = dailyUsageRepository.findBetweenDate(startDate, endDate);
+    return new CpuDailyUsageResponse(transToDto(findEntityList, CpuDailyUsageDto::of));
+  }
+
+  private <T, D> List<D> transToDto(List<T> findEntityList, Function<T, D> mapper) {
+    return findEntityList.stream().map(mapper).toList();
   }
 
   private List<CpuHourlyUsage> transToCpuHourUsageList(

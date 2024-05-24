@@ -16,4 +16,13 @@ public abstract class DateUtils {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     return LocalDateTime.parse(pattern, formatter);
   }
+
+  public static LocalDateTime getLocalDateTimeMinuteZero(LocalDateTime localDateTime) {
+    return LocalDateTime.of(
+        localDateTime.getYear(),
+        localDateTime.getMonth(),
+        localDateTime.getDayOfMonth(),
+        localDateTime.getHour(),
+        0);
+  }
 }

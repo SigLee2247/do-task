@@ -1,11 +1,14 @@
 package terra.backend.domain.cpu.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import terra.backend.domain.cpu.cache.dto.CpuUsage;
 import terra.backend.domain.cpu.entity.CpuDailyUsage;
 import terra.backend.domain.cpu.entity.CpuHourlyUsage;
 import terra.backend.domain.cpu.entity.CpuMinuteUsage;
+import terra.backend.domain.dto.response.CpuDailyUsageResponse;
+import terra.backend.domain.dto.response.CpuHourUsageResponse;
 import terra.backend.domain.dto.response.CpuMinuteUsageResponse;
 
 public interface CpuService {
@@ -16,4 +19,8 @@ public interface CpuService {
   CpuDailyUsage saveDailyUsage(List<CpuHourlyUsage> cpuHourlyUsages);
 
   CpuMinuteUsageResponse findUsageByMin(LocalDateTime startDate, LocalDateTime endDate);
+
+  CpuHourUsageResponse findUsageByHour(LocalDateTime startDate, LocalDateTime endDate);
+
+  CpuDailyUsageResponse findUsageByDay(LocalDate startDate, LocalDate endDate);
 }
