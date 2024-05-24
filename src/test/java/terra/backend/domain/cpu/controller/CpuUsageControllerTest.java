@@ -1,9 +1,7 @@
 package terra.backend.domain.cpu.controller;
 
-import static io.restassured.RestAssured.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static terra.backend.domain.dto.response.CpuMinuteUsageResponse.*;
 import static terra.backend.utils.ApiTestUtil.getRequestSpecification;
 
 import io.restassured.RestAssured;
@@ -23,8 +21,9 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import terra.backend.common.exception.exception.response.ErrorResponse;
 import terra.backend.common.utils.DateUtils;
+import terra.backend.domain.cpu.dto.response.CpuMinuteUsageResponse.CpuMinuteUsageDto;
 import terra.backend.domain.cpu.validation.enums.DateValidType;
-import terra.backend.domain.dto.response.CpuMinuteUsageResponse;
+import terra.backend.domain.cpu.dto.response.CpuMinuteUsageResponse;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class CpuUsageControllerTest {

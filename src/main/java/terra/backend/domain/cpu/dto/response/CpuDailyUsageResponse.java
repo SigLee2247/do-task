@@ -1,4 +1,4 @@
-package terra.backend.domain.dto.response;
+package terra.backend.domain.cpu.dto.response;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;

@@ -7,7 +7,7 @@ import terra.backend.domain.cpu.entity.CpuDailyUsage;
 import terra.backend.domain.cpu.entity.CpuHourlyUsage;
 import terra.backend.domain.cpu.entity.CpuMinuteUsage;
 import terra.backend.domain.cpu.validation.enums.DateValidType;
-import terra.backend.domain.dto.response.CpuResponseDto;
+import terra.backend.domain.cpu.dto.response.CpuResponseDto;
 
 public interface CpuService {
   CpuMinuteUsage saveMinuteUsage(int cpuLoad);
