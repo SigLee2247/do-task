@@ -42,8 +42,8 @@ public class CpuUsageController {
 
   @GetMapping("/day")
   public ResponseEntity findUsageByDay(
-      @RequestParam("startDate") @DateValidation(type = HOUR) LocalDate startDate,
-      @RequestParam("endDate") @DateValidation(type = HOUR) LocalDate endDate) {
+      @RequestParam("startDate") @DateValidation(type = DAY) LocalDate startDate,
+      @RequestParam("endDate") @DateValidation(type = DAY) LocalDate endDate) {
     CpuResponseDto result = cpuService.findUsage(startDate, endDate, DAY);
     return ResponseEntity.ok(new ResponseDto(result));
   }

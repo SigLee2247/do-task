@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import terra.backend.common.exception.exception.BusinessLogicException;
 import terra.backend.common.utils.DateUtils;
+import terra.backend.domain.cpu.cache.CpuCache;
 import terra.backend.domain.cpu.cache.dto.CpuUsage;
 import terra.backend.domain.cpu.entity.CpuDailyUsage;
 import terra.backend.domain.cpu.entity.CpuHourlyUsage;
@@ -35,14 +36,17 @@ public class CpuServiceImpl implements CpuService {
   private final MinuteUsageRepository minuteUsageRepository;
   private final HourlyUsageRepository hourlyUsageRepository;
   private final CpuUsageMapper mapper;
+  private final CpuCache cache;
 
   public CpuServiceImpl(
       DailyUsageRepository dailyUsageRepository,
       MinuteUsageRepository minuteUsageRepository,
-      HourlyUsageRepository hourlyUsageRepository) {
+      HourlyUsageRepository hourlyUsageRepository,
+      CpuCache cpuCache) {
     this.dailyUsageRepository = dailyUsageRepository;
     this.minuteUsageRepository = minuteUsageRepository;
     this.hourlyUsageRepository = hourlyUsageRepository;
+    this.cache = cpuCache;
     this.mapper = new CpuUsageMapper();
   }
 
@@ -92,11 +96,24 @@ public class CpuServiceImpl implements CpuService {
     endDate = DateUtils.getLocalDateTimeMinuteZero(endDate);
 
     List<CpuHourlyUsage> findEntityList = hourlyUsageRepository.findBetweenDate(startDate, endDate);
+
+    List<CpuUsage> findCache = cache.findBetweenLocalDateTime(startDate, endDate);
+    List<CpuHourlyUsage> cpuHourlyUsages = mapper.transToCpuHourUsageList(findCache);
+    findEntityList.addAll(cpuHourlyUsages);
+
     return new CpuHourUsageResponse(mapper.transToDto(findEntityList, CpuHourUsageDto::of));
   }
 
   private CpuDailyUsageResponse findUsageByDay(LocalDate startDate, LocalDate endDate) {
     List<CpuDailyUsage> findEntityList = dailyUsageRepository.findBetweenDate(startDate, endDate);
+
+    // startDate And endDate
+    List<CpuUsage> findCache = cache.findBetweenLocalDate(startDate, endDate);
+    List<CpuHourlyUsage> cpuHourlyUsages = mapper.transToCpuHourUsageList(findCache);
+    CpuDailyUsage cpuDailyUsage = mapper.transToCpuDailyUsage(cpuHourlyUsages);
+
+    findEntityList.add(cpuDailyUsage);
+
     return new CpuDailyUsageResponse(mapper.transToDto(findEntityList, CpuDailyUsageDto::of));
   }
 }

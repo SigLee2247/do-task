@@ -16,5 +16,12 @@ class DateUtilsTest {
     LocalDateTime result = DateUtils.getCustomHour(hour);
     // then
     Assertions.assertThat(result.getHour()).isEqualTo(hour);
+
+    LocalDateTime now = LocalDateTime.now();
+    LocalDateTime localDateTime = LocalDateTime.now().minusDays(12);
+    // 오늘이 후에 있는가? now 는 더 뒤의 수다
+    System.out.println(now.isAfter(localDateTime));
+    System.out.println("now = " + now);
+    System.out.println("localDateTime = " + localDateTime);
   }
 }

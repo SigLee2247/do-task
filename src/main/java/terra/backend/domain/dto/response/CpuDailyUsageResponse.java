@@ -1,5 +1,7 @@
 package terra.backend.domain.dto.response;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -26,7 +28,8 @@ public class CpuDailyUsageResponse implements CpuResponseDto {
           .minUsage(entity.getMinUsage())
           .aveUsage(entity.getAvgUsage())
           .samplingDate(
-              entity.getSamplingDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+              LocalDateTime.of(entity.getSamplingDate(), LocalTime.MIN)
+                  .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
           .build();
     }
   }
