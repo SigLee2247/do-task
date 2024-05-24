@@ -18,6 +18,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import terra.backend.common.utils.DateUtils;
 import terra.backend.domain.cpu.cache.CpuCacheImpl;
 import terra.backend.domain.cpu.cache.dto.CpuUsage;
+import terra.backend.domain.cpu.dto.response.CpuDailyUsageResponse;
+import terra.backend.domain.cpu.dto.response.CpuDailyUsageResponse.CpuDailyUsageDto;
+import terra.backend.domain.cpu.dto.response.CpuHourUsageResponse;
+import terra.backend.domain.cpu.dto.response.CpuHourUsageResponse.CpuHourUsageDto;
+import terra.backend.domain.cpu.dto.response.CpuMinuteUsageResponse;
+import terra.backend.domain.cpu.dto.response.CpuResponseDto;
 import terra.backend.domain.cpu.entity.CpuDailyUsage;
 import terra.backend.domain.cpu.entity.CpuHourlyUsage;
 import terra.backend.domain.cpu.entity.CpuMinuteUsage;
@@ -26,12 +32,6 @@ import terra.backend.domain.cpu.repository.DailyUsageRepository;
 import terra.backend.domain.cpu.repository.HourlyUsageRepository;
 import terra.backend.domain.cpu.repository.MinuteUsageRepository;
 import terra.backend.domain.cpu.validation.enums.DateValidType;
-import terra.backend.domain.cpu.dto.response.CpuDailyUsageResponse;
-import terra.backend.domain.cpu.dto.response.CpuDailyUsageResponse.CpuDailyUsageDto;
-import terra.backend.domain.cpu.dto.response.CpuHourUsageResponse;
-import terra.backend.domain.cpu.dto.response.CpuHourUsageResponse.CpuHourUsageDto;
-import terra.backend.domain.cpu.dto.response.CpuMinuteUsageResponse;
-import terra.backend.domain.cpu.dto.response.CpuResponseDto;
 
 @ExtendWith(MockitoExtension.class)
 class CpuServiceImplTest {

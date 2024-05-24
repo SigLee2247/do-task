@@ -18,16 +18,6 @@ spring:
         format_sql: true
         jdbc:
           batch_size: 100
-    defer-datasource-initialization: true
-  data:
-    redis:
-      host: 127.0.0.1
-      port: 6379
-  sql:
-    init:
-      mode: always
-      platform: h2
-
 logging:
   level:
     org.hibernate.sql: info
