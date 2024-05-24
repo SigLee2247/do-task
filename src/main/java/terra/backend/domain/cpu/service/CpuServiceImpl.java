@@ -1,6 +1,5 @@
 package terra.backend.domain.cpu.service;
 
-import static terra.backend.domain.cpu.validation.enums.DateValidType.*;
 import static terra.backend.domain.dto.response.CpuHourUsageResponse.*;
 
 import java.time.LocalDate;
@@ -100,20 +99,20 @@ public class CpuServiceImpl implements CpuService {
     List<CpuUsage> findCache = cache.findBetweenLocalDateTime(startDate, endDate);
     List<CpuHourlyUsage> cpuHourlyUsages = mapper.transToCpuHourUsageList(findCache);
     findEntityList.addAll(cpuHourlyUsages);
-
     return new CpuHourUsageResponse(mapper.transToDto(findEntityList, CpuHourUsageDto::of));
   }
 
   private CpuDailyUsageResponse findUsageByDay(LocalDate startDate, LocalDate endDate) {
     List<CpuDailyUsage> findEntityList = dailyUsageRepository.findBetweenDate(startDate, endDate);
 
-    // startDate And endDate
     List<CpuUsage> findCache = cache.findBetweenLocalDate(startDate, endDate);
-    List<CpuHourlyUsage> cpuHourlyUsages = mapper.transToCpuHourUsageList(findCache);
-    CpuDailyUsage cpuDailyUsage = mapper.transToCpuDailyUsage(cpuHourlyUsages);
 
-    findEntityList.add(cpuDailyUsage);
+    if (!findCache.isEmpty()) {
+      List<CpuHourlyUsage> cpuHourlyUsages = mapper.transToCpuHourUsageList(findCache);
+      CpuDailyUsage cpuDailyUsage = mapper.transToCpuDailyUsage(cpuHourlyUsages);
 
+      findEntityList.add(cpuDailyUsage);
+    }
     return new CpuDailyUsageResponse(mapper.transToDto(findEntityList, CpuDailyUsageDto::of));
   }
 }
