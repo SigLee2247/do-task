@@ -35,4 +35,9 @@ public class CpuMinuteUsage {
     this.usage = usage;
     this.samplingDate = LocalDateTime.now();
   }
+
+  public CpuMinuteUsage(int usage, LocalDateTime samplingDate) {
+    this.usage = usage;
+    this.samplingDate = samplingDate;
+  }
 }
