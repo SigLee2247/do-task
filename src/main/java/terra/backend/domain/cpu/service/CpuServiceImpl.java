@@ -3,6 +3,7 @@ package terra.backend.domain.cpu.service;
 import static terra.backend.common.utils.DateUtils.getCustomHour;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,8 @@ import terra.backend.domain.cpu.entity.CpuMinuteUsage;
 import terra.backend.domain.cpu.repository.DailyUsageRepository;
 import terra.backend.domain.cpu.repository.HourlyUsageRepository;
 import terra.backend.domain.cpu.repository.MinuteUsageRepository;
+import terra.backend.domain.dto.response.CpuMinuteUsageResponse;
+import terra.backend.domain.dto.response.CpuMinuteUsageResponse.CpuMinuteUsageDto;
 
 @Service
 @Transactional(readOnly = true)
@@ -47,6 +50,17 @@ public class CpuServiceImpl implements CpuService {
   public CpuDailyUsage saveDailyUsage(List<CpuHourlyUsage> list) {
     CpuDailyUsage cpuDailyUsage = transToCpuDailyUsage(list);
     return dailyUsageRepository.save(cpuDailyUsage);
+  }
+
+  @Override
+  public CpuMinuteUsageResponse findUsageByMin(LocalDateTime startDate, LocalDateTime endDate) {
+    List<CpuMinuteUsage> findEntityList = dailyUsageRepository.findBetweenDate(startDate, endDate);
+    return transToDto(findEntityList);
+  }
+
+  private CpuMinuteUsageResponse transToDto(List<CpuMinuteUsage> findEntityList) {
+    List<CpuMinuteUsageDto> result = findEntityList.stream().map(CpuMinuteUsageDto::of).toList();
+    return new CpuMinuteUsageResponse(result);
   }
 
   private List<CpuHourlyUsage> transToCpuHourUsageList(
