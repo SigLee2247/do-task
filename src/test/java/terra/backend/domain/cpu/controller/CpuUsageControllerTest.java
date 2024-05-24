@@ -58,7 +58,7 @@ class CpuUsageControllerTest {
     assertAll(
         () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
         () ->
-            assertThat(result.getList("data.cpuUsageByMinute", CpuMinuteUsageDto.class))
+            assertThat(result.getList("data.cpuUsageList", CpuMinuteUsageDto.class))
                 .isNotEmpty(),
         () -> {
           List<CpuMinuteUsageDto> cpuUsageList =

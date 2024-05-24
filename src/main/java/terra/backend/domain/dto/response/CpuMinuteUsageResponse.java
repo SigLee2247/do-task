@@ -11,7 +11,7 @@ import terra.backend.domain.cpu.entity.CpuMinuteUsage;
 @AllArgsConstructor
 public class CpuMinuteUsageResponse {
 
-  private List<CpuMinuteUsageDto> cpuUsageByMinute;
+  private List<CpuMinuteUsageDto> cpuUsageList;
 
   @Getter
   @Builder
