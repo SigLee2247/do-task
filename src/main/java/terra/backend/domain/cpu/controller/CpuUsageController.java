@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import terra.backend.common.dto.response.ResponseDto;
 import terra.backend.domain.cpu.service.CpuService;
-import terra.backend.domain.cpu.validation.DateValidation;
+import terra.backend.domain.cpu.validation.annotation.DateValidation;
 import terra.backend.domain.dto.response.CpuMinuteUsageResponse;
 
 @Validated

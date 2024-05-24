@@ -1,5 +1,8 @@
 package terra.backend.common.exception.exception.response;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.ConstraintViolation;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import terra.backend.common.exception.exception.enums.ExceptionCode;
 
 @Getter
+@JsonInclude(NON_NULL)
 public class ErrorResponse {
 
   private List<FieldError> fieldErrors;
@@ -26,6 +30,7 @@ public class ErrorResponse {
       List<FieldError> fieldErrors, List<ConstraintViolationError> violationErrors) {
     this.fieldErrors = fieldErrors;
     this.violationErrors = violationErrors;
+    this.httpStatus = HttpStatus.BAD_REQUEST;
   }
 
   public static ErrorResponse of(ExceptionCode exceptionCode) {
