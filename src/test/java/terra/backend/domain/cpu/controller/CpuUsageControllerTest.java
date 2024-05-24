@@ -1,8 +1,10 @@
 package terra.backend.domain.cpu.controller;
 
+import static io.restassured.RestAssured.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static terra.backend.domain.dto.response.CpuMinuteUsageResponse.*;
+import static terra.backend.utils.ApiTestUtil.getRequestSpecification;
 
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
@@ -19,7 +21,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import terra.backend.common.exception.exception.response.ErrorResponse;
 import terra.backend.common.utils.DateUtils;
 import terra.backend.domain.cpu.validation.enums.DateValidType;
@@ -46,16 +47,11 @@ class CpuUsageControllerTest {
             "endDate", endDate.toString());
 
     ExtractableResponse<Response> response =
-        RestAssured.given()
-            .log()
-            .all()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
+        getRequestSpecification()
             .params(params)
             .when()
             .get("/api/cpu-usages/minute")
             .then()
-            .log()
-            .all()
             .extract();
 
     JsonPath result = response.jsonPath();
@@ -89,16 +85,11 @@ class CpuUsageControllerTest {
             "endDate", endDate.toString());
 
     ExtractableResponse<Response> response =
-        RestAssured.given()
-            .log()
-            .all()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
+        getRequestSpecification()
             .params(params)
             .when()
             .get("/api/cpu-usages/minute")
             .then()
-            .log()
-            .all()
             .extract();
 
     JsonPath result = response.jsonPath();
