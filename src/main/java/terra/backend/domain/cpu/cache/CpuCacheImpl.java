@@ -40,7 +40,7 @@ public class CpuCacheImpl implements CpuCache {
   @Override
   public List<CpuUsage> findBetweenLocalDate(LocalDate startTime, LocalDate endTime) {
     LocalDateTime start = LocalDateTime.of(startTime, LocalTime.of(0, 0));
-    LocalDateTime end = LocalDateTime.of(startTime, LocalTime.MAX);
+    LocalDateTime end = LocalDateTime.of(endTime, LocalTime.MAX);
 
     return map.entrySet().stream()
         .filter(entry -> entry.getKey().isAfter(start) && entry.getKey().isBefore(end))
