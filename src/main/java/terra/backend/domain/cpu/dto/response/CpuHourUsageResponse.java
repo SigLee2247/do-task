@@ -1,5 +1,6 @@
 package terra.backend.domain.cpu.dto.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,8 @@ public class CpuHourUsageResponse implements CpuResponseDto {
     private int maxUsage;
     private int minUsage;
     private String aveUsage;
+
+    @Schema(example = "2024-05-23 22:13:00")
     private String samplingDate;
 
     public static CpuHourUsageDto of(CpuHourlyUsage entity) {

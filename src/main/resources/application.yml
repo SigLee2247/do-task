@@ -1,3 +1,7 @@
 spring:
   application:
     name: Terra
+  mvc:
+    format:
+      date: yyyy-MM-dd
+      date-time: yyyy-MM-dd HH:mm:ss

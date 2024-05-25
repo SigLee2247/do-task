@@ -1,5 +1,6 @@
 package terra.backend.domain.cpu.dto.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -20,6 +21,8 @@ public class CpuDailyUsageResponse implements CpuResponseDto {
     private int maxUsage;
     private int minUsage;
     private String aveUsage;
+
+    @Schema(example = "2024-05-23 22:13:00")
     private String samplingDate;
 
     public static CpuDailyUsageDto of(CpuDailyUsage entity) {

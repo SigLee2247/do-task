@@ -1,6 +1,7 @@
 package terra.backend.common.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseDto<T> {
 
+  @Schema(example = "2024-05-23 22:13:00")
   private final String timeStamp;
+
   private final T data;
 
   @Builder

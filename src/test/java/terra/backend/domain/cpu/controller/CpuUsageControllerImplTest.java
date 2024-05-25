@@ -35,7 +35,7 @@ import terra.backend.domain.cpu.validation.enums.DateValidType;
 @ActiveProfiles("total")
 @Transactional
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class CpuUsageControllerTest {
+class CpuUsageControllerImplTest {
 
   @LocalServerPort int port;
 
