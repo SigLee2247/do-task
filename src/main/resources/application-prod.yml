@@ -19,3 +19,11 @@ logging:
   level:
     org.hibernate.sql: info
     org.hibernate.type.descriptor.sql: trace
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    tags-sorter: alpha
+    disable-swagger-default-url: true
+    path: /swagger
+  paths-to-match: /api/**
