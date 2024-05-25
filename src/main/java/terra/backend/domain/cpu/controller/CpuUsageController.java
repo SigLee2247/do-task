@@ -1,6 +1,7 @@
 package terra.backend.domain.cpu.controller;
 
-import static terra.backend.domain.cpu.validation.enums.DateValidType.*;
+import static terra.backend.domain.cpu.validation.enums.DateValidType.DAY;
+import static terra.backend.domain.cpu.validation.enums.DateValidType.HOUR;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -9,7 +10,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,19 +20,13 @@ import terra.backend.common.dto.response.ResponseDto;
 import terra.backend.domain.cpu.dto.response.CpuDailyUsageResponse;
 import terra.backend.domain.cpu.dto.response.CpuHourUsageResponse;
 import terra.backend.domain.cpu.dto.response.CpuMinuteUsageResponse;
-import terra.backend.domain.cpu.dto.response.CpuResponseDto;
-import terra.backend.domain.cpu.service.CpuService;
 import terra.backend.domain.cpu.validation.annotation.DateValidation;
 
 @Validated
 @RestController
 @RequestMapping("/api/cpu-usages")
 @Tag(name = "CPU_Usage API", description = "CPU의 분 / 시간/ 일 별 사용량 조회 API")
-@RequiredArgsConstructor
-public class CpuUsageController {
-
-  private final CpuService cpuService;
-
+public interface CpuUsageController {
   @GetMapping("/minute")
   @Operation(
       summary = "분당 CPU 사용량 조회",
@@ -48,10 +42,7 @@ public class CpuUsageController {
       })
   public ResponseEntity<ResponseDto<CpuMinuteUsageResponse>> findUsageByMin(
       @RequestParam("startDate") @DateValidation LocalDateTime startDate,
-      @RequestParam("endDate") @DateValidation LocalDateTime endDate) {
-    CpuResponseDto result = cpuService.findUsage(startDate, endDate, MIN);
-    return ResponseEntity.ok(new ResponseDto(result));
-  }
+      @RequestParam("endDate") @DateValidation LocalDateTime endDate);
 
   @Operation(
       summary = "시간당 CPU 사용량 조회",
@@ -68,10 +59,7 @@ public class CpuUsageController {
   @GetMapping("/hour")
   public ResponseEntity<ResponseDto<CpuHourUsageResponse>> findUsageByHour(
       @RequestParam("startDate") @DateValidation(type = HOUR) LocalDateTime startDate,
-      @RequestParam("endDate") @DateValidation(type = HOUR) LocalDateTime endDate) {
-    CpuResponseDto result = cpuService.findUsage(startDate, endDate, HOUR);
-    return ResponseEntity.ok(new ResponseDto(result));
-  }
+      @RequestParam("endDate") @DateValidation(type = HOUR) LocalDateTime endDate);
 
   @Operation(
       summary = "시간당 CPU 사용량 조회",
@@ -88,8 +76,5 @@ public class CpuUsageController {
   @GetMapping("/day")
   public ResponseEntity<ResponseDto<CpuDailyUsageResponse>> findUsageByDay(
       @RequestParam("startDate") @DateValidation(type = DAY) LocalDate startDate,
-      @RequestParam("endDate") @DateValidation(type = DAY) LocalDate endDate) {
-    CpuResponseDto result = cpuService.findUsage(startDate, endDate, DAY);
-    return ResponseEntity.ok(new ResponseDto(result));
-  }
+      @RequestParam("endDate") @DateValidation(type = DAY) LocalDate endDate);
 }
