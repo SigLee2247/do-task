@@ -19,7 +19,7 @@ public class CpuMinuteUsage {
   @Column(updatable = false, name = "cpu_minute_usage_id")
   private Long id;
 
-  @Column(nullable = false)
+  @Column(nullable = false, name = "usages")
   private int usage;
 
   @Column(nullable = false)

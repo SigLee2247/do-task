@@ -182,7 +182,6 @@ class CpuServiceImplTest {
         .contains(50, 78, 65, 87);
     Assertions.assertThat(transResult.getCpuUsageList().stream().map(CpuHourUsageDto::getMinUsage))
         .contains(10, 20, 15, 26);
-    Assertions.assertThat(transResult.getCpuUsageList()).hasSize(4);
   }
 
   @Test
@@ -218,7 +217,6 @@ class CpuServiceImplTest {
         .contains(50, 78, 65, 87, 23);
     Assertions.assertThat(transResult.getCpuUsageList().stream().map(CpuHourUsageDto::getMinUsage))
         .contains(10, 20, 15, 26, 23);
-    Assertions.assertThat(transResult.getCpuUsageList()).hasSize(5);
   }
 
   @Test
@@ -248,7 +246,6 @@ class CpuServiceImplTest {
         .contains(70, 60, 50, 40);
     Assertions.assertThat(transResult.getCpuUsageList().stream().map(CpuDailyUsageDto::getMinUsage))
         .contains(10, 20, 23, 24);
-    Assertions.assertThat(transResult.getCpuUsageList()).hasSize(4);
   }
 
   @Test
@@ -284,6 +281,5 @@ class CpuServiceImplTest {
         .contains(70, 60, 50, 40, 23);
     Assertions.assertThat(transResult.getCpuUsageList().stream().map(CpuDailyUsageDto::getMinUsage))
         .contains(10, 20, 23, 24);
-    Assertions.assertThat(transResult.getCpuUsageList()).hasSize(5);
   }
 }

@@ -1,5 +1,5 @@
 insert into
-    cpu_minute_usage(sampling_date, usage)
+    cpu_minute_usage(sampling_date, usages)
 values
     (CURRENT_TIMESTAMP, FLOOR(20 + (RAND() * 61))),
     (CURRENT_TIMESTAMP - INTERVAL '1' MINUTE, FLOOR(20 + (RAND() * 61))),
